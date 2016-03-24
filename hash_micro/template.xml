@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="asssfffd" model="ir.ui.view" >
+            <field name="name"> sale.order.form </field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml" >
+                <xpath expr="//header" position="after" >
+                    <button name="print_proposal"  
+                        string="Generate Proposal" type="object" icon="gtk-execute"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}" />
+                </xpath>
+                <xpath expr="//page[2]" position="after">
+                    <page string="Custom Products">
+                        <field name="sale_order_ids"  
+                            nolabel="1" widget="one2many_list" mode="tree" >
+                            <tree string="Transport Transactions" editable="bottom">
+                                <field name="product_name" />
+                                <field name="description" />
+                                <field name="quantity_ordered" />
+                                <field name="quantity_delivered" readonly="1"/>
+                                <field name="invoiced" readonly="1" />
+                                <field name="unit_price" sum="" />
+                                <field name="tax_id" widget="many2many_tags" />
+                                <field name="sub_total" readonly="1" sum="Sub Total" />
+                            </tree>
+                        </field>
+                        <div >
+                            <group>
+                                <field name="custom_total"  widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1" />
+                            </group>
+                        </div>
+                    </page>
+                </xpath>
+                <xpath expr="//page[3]" position="after">
+                  <page string="Terms and Conditions">
+                        <field name="tc" string="Terms and Conditions" />
+                  </page>
+                </xpath>
+                <xpath expr="//notebook" position="after">
+                    <br />
+                    <center>
+                        <button name='evaluate_all' string='Evaluate All'
+                        class='oe_highlight' type='object'  />
+                    </center>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record model="ir.ui.view" id="view_custom_sale_config_form_inherited">
+            <field name="name">sale settings</field>
+            <field name="model">sale.config.settings</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_sales_config" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[1]" position="after">
+                        <group string="Terms and Conditions">
+                            <field name="tc"/>
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
