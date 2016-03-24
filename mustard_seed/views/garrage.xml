@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <!-- action -->
+    <record id="action_garage_invoice" model="ir.actions.act_window">
+        <field name="name" >Garage Tracking Invoice</field>
+        <field name="res_model" >account.invoice</field>
+        <field name="view_type" >form</field>
+        <field name="view_mode" >tree,form,kanban,calendar,pivot,graph</field>
+        <field name="domain"> [('invoice_type', '=', 'garrage')] </field>
+        <field name="context"> {'default_invoice_type':'garrage'} </field> 
+        <field name="help" type="html" > 
+            <p>Click add for new ...</p>
+        </field>
+    </record>
+    <!-- action -->
+
+    <!-- view -->
+    <!-- form view -->
+    <record id="garage_invoice_form_view" model="ir.ui.view" >
+        <field name="name"> account.invoice.form </field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form" />
+        <field name="arch" type="xml" >
+          <!-- add invoice type -->
+          <field name="payment_term_id" position="after">
+            <field name="invoice_type" readonly="1" />
+          </field>
+          <!-- remove description and quantity on the one2many widget -->
+          <!-- <field name="name" position="attributes">
+            <attribute name="invisible">True</attribute>
+          </field> -->
+          <field name="quantity" position="attributes">
+            <attribute name="invisible">True</attribute>
+          </field>
+          <!-- replace product_id with product_id giving it a different name, serial number -->
+          <field name="product_id" position="replace">
+            <field name="product_id" string="Product" />
+          </field>
+          <field name="payment_term_id" position="after">
+            <field name="product_id" string="Product" />
+          </field>
+          <!-- add imea, car number and tracker number -->
+        </field>
+    </record>
+    <!-- tree view -->
+    <record id="garage_invoice_tree_view" model="ir.ui.view" >
+        <field name="name"> account.invoice.tree </field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree" />
+        <field name="arch" type="xml" >
+          <!-- remove invoice_type -->
+          <field name="invoice_type" position="attributes">
+            <attribute name="invisible">True</attribute>
+          </field>
+        </field>
+    </record>
+    <!-- kanban view -->
+   <!--  <record id="garage_invoices_kanban_view" model="ir.ui.view" >
+        <field name="name"> account.invoice.kanban </field>
+        <field name="model">account.invoice</field>
+        <field name="arch" type="xml" >
+          <kanban default_group_by="partner_id" create="false">
+            <h1>I am the kanban view</h1>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="">
+                      <field name="partner_id" />
+                      <field name="invoice_type" />
+                    </div>
+                </t>
+            </templates>
+          </kanban>
+        </field>
+    </record> -->
+    <!-- view -->
+
+
+    <!-- action -> view (tree, form) -->
+    <record id="garage_invoice_form" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="garage_invoice_tree_view" />
+        <field name="act_window_id" ref="action_garage_invoice" />
+    </record>
+    <record id="garage_invoice_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="garage_invoice_form_view" />
+        <field name="act_window_id" ref="action_garage_invoice" />
+    </record>
+    <!-- kanban action -->
+    <record id="action_garage_kanban_invoice" model="ir.actions.act_window">
+        <field name="name" >Garage Tracking Invoice</field>
+        <field name="res_model" >account.invoice</field>
+        <!-- <field name="view_type" >kanban</field> -->
+        <field name="view_mode" >kanban</field>
+        <field name="domain"> [('invoice_type', '=', 'garrage')] </field>
+        <field name="context"> {'default_invoice_type':'garrage'} </field> 
+        <!-- <field name="view_id" ref="garage_invoices_kanban_view" /> -->
+        <field name="help" type="html" > 
+            <p>Click add for new ...</p>
+        </field>
+    </record>
+    <!-- action -> view -->
+
+    <!-- menus -->
+    <menuitem  name="GGAARRAAGGEE" id="garage_top_menu" sequence="55" action="action_garage_kanban_invoice" />
+
+    <menuitem name="General" id="general_menu" parent="garage_top_menu" sequence="2" action="" />
+    <menuitem name="Invoice" id="invoice_id" 
+      action="action_garage_invoice" sequence="1" parent="general_menu" />
+
+    <!-- <menuitem name="Customer" id="customer_details" 
+      parent="garage_top_menu" sequence="2" />
+    <menuitem name="Customer" id="customer_id" 
+      action="action_customer" sequence="1" parent="customer_details" />
+
+    <menuitem name="Trackers" id="tracker_details" 
+      parent="garage_top_menu" sequence="2" />
+    <menuitem name="Customer" id="tracker_id" 
+      action="action_tracker" sequence="1" parent="tracker_details" /> -->
+    <!-- menus -->
+    
+  </data>
+</openerp>

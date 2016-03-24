@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record model="ir.ui.view" id="hr_employee_cform">
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <field name="coach_id" position="after">
+                <field name="commission_percentage" />
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_form_aaa">
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <field name="barcode" position="before">
+                <field name="imea_number"  />
+            </field>
+        </field>
+    </record>
+
+    <!-- TRANSPORT TRANSPORT TRANSPORT TRANSPORT TRANSPORT TRANSPORT  -->
+    <menuitem  name="Transport" id="top_transport_menu" sequence="13" />
+    
+    <!-- menus invoice -->
+    <menuitem name="General" id="general_menu_nc" parent="top_transport_menu" sequence="1"/>
+    <menuitem  name="invoice" id="invoice_cl" action="general_invoice" sequence="1" parent="general_menu_nc" />
+
+                                   <!-- manu item -->
+    <menuitem name="Transaction"  id="transaction_menu_nc" parent="top_transport_menu" sequence="2" />
+    <menuitem  name="Expenses" id="invoice_expense_cl" action="action_expense_transaction" sequence="1" parent="transaction_menu_nc" />
+    <menuitem  name="Income" id="invoice_income_cl" action="action_income_transaction" sequence="1" parent="transaction_menu_nc" />
+
+  </data>
+</openerp>

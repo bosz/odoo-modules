@@ -1,0 +1,197 @@
+<openerp>
+<data>
+    <report
+        id="transport_report"
+        model="transport.invoice"
+        string="Transport Report"
+        name="mustard_seed.transport_report_view"
+        file="transport.transport_report"
+        report_type="qweb-pdf" />
+
+    <template id="transport_report_view" >
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <style>
+                            .table &gt; thead &gt; tr &gt; th, .table &gt; tbody &gt; tr &gt; th, .table &gt; tfoot &gt; tr &gt; th, .table &gt; thead &gt; tr &gt; td, .table &gt; tbody &gt; tr &gt; td, .table &gt; tfoot &gt; tr &gt; td {
+                                border-top: 1px solid transparent!important;
+                            }
+                            <!-- tr, tr > td { padding: 2px!important; } -->
+                        </style>
+                        <!-- this is customer's information  -->
+                       <br/>
+                        <div class="row">
+                            <div class="col-xs-5 pull-left">
+                                <table class="table table-condensed">
+                                    <tr class="">
+                                        <td><strong>Start Date</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.start_date"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="">
+                                        <td><strong>End Date</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.end_date"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="">
+                                        <td><strong>Controller Cost</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.controller_cost"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="col-xs-5 pull-right">
+                                <table class="table table-condensed">
+                                    <tr class="">
+                                        <td><strong>Driver</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.driver_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="">
+                                        <td><strong>Truck</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.truck_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="">
+                                        <td><strong>Driver's Commission</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.commision"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end of customer's information -->
+
+                        <h4 style="text-align: center; margin-botton: 5px; text-decoration: underline; padding-bottom: 2px;">
+                           <span> Transport </span>
+                            <span t-if=" o.state == 'draft'">Draft Invoice</span>
+                            <span t-if="o.state == 'open'">Invoice</span>
+                            <span t-if=" o.state == 'closed'">Complete</span>
+                        </h4>
+
+                        <table class="table table-condensed table-bordered" style="font-size: 13px!important;">
+                            <thead>
+                                <tr style="background: rgba(177, 177, 191, 0.46); padding: 3px;">
+                                    <th class=" col-xs-1">Date</th>
+                                    <th class="text-right col-xs-1">Income Amount</th>
+                                    <th class="text-right col-xs-4">Expense Amount</th>
+                                    <th class="text-right col-xs-4">Income Description</th>
+                                    <th class="text-right col-xs-1">Expense Description</th>
+                                    <th class="text-right col-xs-1">Deficite</th>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <tr t-foreach="o.transport_invoice_ids" t-as="t">
+                                    <td class=" col-xs-1">
+                                        <span t-field="t.date"/>
+                                    </td>
+                                    <td class="text-right col-xs-1">
+                                        <span t-field="t.inc_amount" /> 
+                                    </td>
+                                    <td class="pull-left col-xs-1">
+                                        <span t-field="t.inc_desc"></span>
+                                    </td>
+
+                                    <td class="text-right col-xs-1">
+                                        <span t-field="t.exp_amount" /> 
+                                    </td>
+                                    <td class="pull-left col-xs-4">
+                                        <span t-field="t.exp_desc"></span>
+                                    </td>
+                                   
+                                    <td class="text-right col-xs-1">
+                                        <span t-field="t.deficit" /> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row">
+                            <div class="col-xs-4 pull-left">
+                                <table class="table table-condensed" >
+                                    <tr class='border-black'>
+                                        <td><strong>Total Income </strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_income" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-xs-6 pull-right">
+                                <table class="table table-condensed">
+                                    <tr class="border-black">
+                                        <td><strong>Total Expense(unsalarised)</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_expense_no_affect_salary" />
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td><strong>Total Expense(salaried)</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_expense_affects_salary" />
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black" style="border-bottom: 2px solid black!important; background:#eee;">
+                                        <td><strong>Total Expense</strong></td>
+                                        <td class="text-right">
+                                             <span t-field="o.total_expense" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-3 pull-left">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th><center>Driver's Salary</center></th>
+                                        </tr>
+                                    </thead>
+                                     <tbody>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                <span t-field="o.net_monthly_balance" />
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xs-offset-6 col-xs-3 pull-right">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-right"><center>Net Balance</center></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                <span t-field="o.net_monthly_balance" />
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</data>
+</openerp>
+

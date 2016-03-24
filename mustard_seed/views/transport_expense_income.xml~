@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <!-- ============================================================== -->
+    <!--                          INCOME  start                         -->
+    <!-- ============================================================== -->
+  	<!-- action -->
+  	<record id="action_income_transaction" model="ir.actions.act_window">
+        <field name="name" >Income Transaction</field>
+        <field name="res_model" >transport.invoice.line</field>
+        <field name="view_type" >form</field>
+        <field name="view_mode" >tree,form,canban,graph</field>
+        <field name="help" type="html" > 
+            <p>Click add for new ...</p>
+        </field>
+    </record>
+    <!-- action - view > tree -->
+    <record id="income_transaction_form_view" model="ir.ui.view" >
+        <field name="name"> transport.invoice.line.tree </field>
+        <field name="model">transport.invoice.line</field>
+        <field name="arch" type="xml" >
+            <tree string="Transport Informaiton" >
+                <field name="inc_amount" sum="Total Income"/>
+                <field name="inc_desc" />
+            </tree>
+        </field>
+    </record>
+    <!-- action - view > form -->
+    <record id="income_transaction_tree_view" model="ir.ui.view" >
+        <field name="name"> transport.invoice.line.form </field>
+        <field name="model">transport.invoice.line</field>
+        <field name="arch" type="xml" >
+            <form string="Transport Informaiton" >
+                <header>
+                    <h4>Details for <field name="date" readonly="1" /> </h4>
+                </header>
+                 <sheet>
+                    <center><h2> Income </h2></center>
+                    <group>
+                        <group> 
+                            <field name="inc_amount" />
+                        </group>
+                        <group>
+                            <field name="inc_desc" />
+                        </group>
+                    </group>
+                    <br /><br />
+                    <center> <h3>Associated Expenses for this day</h3> </center>
+                    <group>
+                        <group>                
+                            <field name="exp_amount" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="exp_desc" readonly="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_income_transaction_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="income_transaction_form_view" />
+        <field name="act_window_id" ref="action_income_transaction" />
+    </record>
+    <record id="action_income_transaction_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="income_transaction_tree_view" />
+        <field name="act_window_id" ref="action_income_transaction" />
+    </record>
+    <!-- ============================================================== -->
+    <!--                          INCOME  end                         -->
+    <!-- ============================================================== -->
+
+
+
+
+
+
+    <!-- ============================================================== -->
+    <!--                          EXPENSE  start                        -->
+    <!-- ============================================================== -->
+    <!-- action -->
+    <record id="action_expense_transaction" model="ir.actions.act_window">
+        <field name="name" >Expense Transactions</field>
+        <field name="res_model" >transport.invoice.line</field>
+        <field name="view_type" >form</field>
+        <field name="view_mode" >tree,form,canban,graph</field>
+        <field name="help" type="html" > 
+            <p>Click add for new ...</p>
+        </field>
+    </record>
+    <!-- action - view > tree -->
+    <record id="expense_transaction_form_view" model="ir.ui.view" >
+        <field name="name"> transport.invoice.line.tree </field>
+        <field name="model">transport.invoice.line</field>
+        <field name="arch" type="xml" >
+            <tree string="Transport Informaiton" >
+                <field name="exp_amount" sum="Total Expenses" />
+                <field name="exp_desc" />
+            </tree>
+        </field>
+    </record>
+    <!-- action - view > form -->
+    <record id="expense_transaction_tree_view" model="ir.ui.view" >
+        <field name="name"> transport.invoice.line.form </field>
+        <field name="model">transport.invoice.line</field>
+        <field name="arch" type="xml" >
+            <form string="Transport Informaiton" >
+                <header>
+                    <h4>Details for <field name="date" readonly="1" /> </h4>
+                </header>
+                <sheet>
+                    <center><h2> Expenses </h2></center>
+                    <group>
+                        <group>                
+                            <field name="exp_amount" />
+                        </group>
+                        <group>
+                            <field name="exp_desc" />
+                        </group>
+                    </group>
+                    <br /><br />
+                    <center> <h2>Associated Income for today</h2> </center>
+                    <group>
+                        <group> 
+                            <field name="inc_amount" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="inc_desc" readonly="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_expense_transaction_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="expense_transaction_form_view" />
+        <field name="act_window_id" ref="action_expense_transaction" />
+    </record>
+    <record id="action_expense_transaction_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="expense_transaction_tree_view" />
+        <field name="act_window_id" ref="action_expense_transaction" />
+    </record>
+    <!-- ============================================================== -->
+    <!--                          EXPENSE  end                          -->
+    <!-- ============================================================== -->
+
+
+
+                                    <!-- manu item -->
+    <menuitem name="Transaction"  id="transaction_menu_nc" parent="top_transport_menu" sequence="2" />
+    <menuitem  name="Expenses" id="invoice_expense_cl" action="action_expense_transaction" sequence="1" parent="transaction_menu_nc" />
+    <menuitem  name="Income" id="invoice_income_cl" action="action_income_transaction" sequence="1" parent="transaction_menu_nc" />
+
+
+  </data>
+</openerp>

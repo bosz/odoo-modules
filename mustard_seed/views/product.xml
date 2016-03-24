@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- TRUCK TRUCK TRUCK TRUCK TRUCK TRUCK TRUCK TRUCK TRUCK  -->
+		<record id="trucks_transport_action" model="ir.actions.act_window">
+	        <field name="name" >Trucks</field>
+	        <field name="res_model" >product.template</field>
+	        <field name="view_type" >form</field>
+	        <field name="view_mode" >tree,form,canban,graph</field>
+	        <field name="help" type="html" > 
+	            <p>Click add for new ...</p>
+	        </field>
+	    </record>
+	    <record model="ir.ui.view" id="product_form_aaa">
+	        <field name="model">product.template</field>
+	        <field name="inherit_id" ref="product.product_template_only_form_view" />
+	        <field name="arch" type="xml">
+	            <field name="barcode" position="before">
+	                <field name="imea_number"  />
+	            </field>
+	        </field>
+	    </record>
+	    <menuitem name="Trucks" id='trucks_transport_menu' 
+        parent="others_menu_nc" sequence="1" action="trucks_transport_action" />
+
+
+
+  	</data>
+</openerp>

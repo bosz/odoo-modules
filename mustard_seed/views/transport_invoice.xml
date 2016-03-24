@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  	<record id="tranport_tree" model="ir.ui.view" >
+        <field name="name"> transport.invoice.tree </field>
+        <field name="model">transport.invoice</field>
+        <field name="arch" type="xml" >
+            <tree string="Transport Informaiton" >
+                <field name="driver_id" />
+                <field name="truck_id" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="total_income" sum="Total Income"/>
+                <field name="total_expense" sum="Total Expense" />
+                <field name="drivers_salary"  sum="Driver Salary" />
+                <field name="net_monthly_balance" sum="Net Balance" />
+            </tree>
+        </field>
+    </record>
+   	<record id="tranport_form" model="ir.ui.view" >
+       <field name="name"> transport.invoice.form </field>
+       <field name="model">transport.invoice</field>
+       <field name="arch" type="xml" >
+        <form>
+            <header>
+                <button name='validate_transport' string='Validate'
+                class='oe_highlight' type='object'  
+                attrs="{'invisible': [('state', 'in', ('open', 'closed'))]}" />
+                <button name='close_transport' string='Close'
+                class='oe_highlight' type='object'  
+                attrs="{'invisible': [('state', 'not in', ('open'))]}" />
+
+                <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,closed" statusbar_colors="{&quot;draft&quot;:&quot;blue&quot;,&quot;open&quot;:&quot;blue&quot;}"/>
+            </header>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="driver_id" 
+                        domain="[('department_id.name','=', 'Driving')]"/>
+                        <field name="truck_id" 
+                        domain="[('product_tmpl_id.categ_id.parent_id.name','=', 'Truck')]"/>
+                        <field name="commision" />
+                    </group>
+                    <group>
+                        <field name="start_date" />
+                        <field name="end_date" />
+                        <field name="controller_cost" />
+                    </group>
+                </group>
+                <field name="transport_invoice_ids" 
+                    attrs="{'readonly': [('state', 'in', ('open', 'closed'))]}"
+                    nolabel="1" widget="one2many_list" mode="tree" >
+                    <tree string="Transport Transactions" editable="bottom">
+                        <field name="date" required="1" />
+                        <field name="inc_amount" sum="Total Income" />
+                        <field name="inc_desc"/>
+                        <field name="exp_amount" sum="Total Expense" />
+                        <field name="exp_desc" />
+                        <field name="deficit" />
+                        <field name="affects_salary" />
+                    </tree>
+                </field>
+                <group >
+                    <group string="Income">
+                        <field name="total_income" readonly="1" />
+                    </group>
+                    <group string="Expenses" >
+                        <field name="total_expense_no_affect_salary" readonly="1" />
+                        <field name="total_expense_affects_salary" readonly="1" />
+                        <field name="total_expense" readonly="1" />
+                    </group>
+                </group>
+
+                <group>
+                    <group string="Driver" class="oe_subtotal_footer" >
+                        <field name="drivers_salary" readonly="1" />
+                    </group>
+                    <group string="Balance" class="oe_subtotal_footer" >
+                        <h2>
+                            <field name="net_monthly_balance" readonly="1" />
+                        </h2>
+                    </group>
+                </group>
+
+                <field name="observation" string="Observation"/> 
+                <center>
+                <button name='evaluate_transport' string='Evaluate All'
+                class='oe_highlight' type='object'  />
+                </center>
+            </sheet>
+
+        </form>
+       </field>
+   </record>
+  	<record id="general_invoice" model="ir.actions.act_window">
+        <field name="name" >Transaction Invoice</field>
+        <field name="res_model" >transport.invoice</field>
+        <field name="view_type" >form</field>
+        <field name="view_mode" >tree,form,canban,graph</field>
+        <field name="help" type="html" > 
+            <p>Click add for new ...</p>
+        </field>
+    </record>
+
+
+    <!-- menus invoice -->
+    <menuitem name="General" id="general_menu_nc" parent="top_transport_menu" sequence="1"/>
+    <menuitem  name="invoice" id="invoice_cl" action="general_invoice" sequence="1" parent="general_menu_nc" />
+  	
+
+
+
+  </data>
+</openerp>

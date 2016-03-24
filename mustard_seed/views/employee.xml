@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  	<data>
+
+  		<!-- DRIVER DRIVER DRIVER DRIVER DRIVER DRIVER DRIVER DRIVER -->
+  		<record id="drivers_transport_action" model="ir.actions.act_window">
+	        <field name="name" >Drivers</field>
+	        <field name="res_model" >hr.employee</field>
+	        <field name="view_type" >form</field>
+	        <field name="view_mode" >tree,form,canban,graph</field>
+	        <field name="help" type="html" > 
+	            <p>Click add for new ...</p>
+	        </field>
+	    </record>
+	    <record model="ir.ui.view" id="hr_employee_cform">
+	        <field name="model">hr.employee</field>
+	        <field name="inherit_id" ref="hr.view_employee_form" />
+	        <field name="arch" type="xml">
+	            <field name="coach_id" position="after">
+	                <field name="commission_percentage" />
+	            </field>
+	        </field>
+	    </record>
+	    <menuitem name="Drivers" id='drivers_transport_menu' 
+        parent="others_menu_nc" sequence="1" action="drivers_transport_action" />
+
+
+
+  	</data>
+</openerp>
