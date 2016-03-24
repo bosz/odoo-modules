@@ -1,0 +1,436 @@
+<openerp>
+    <data>
+        <!-- menus -->
+        <menuitem name="Hotel Management" id="menu_root" sequence="110"/>
+
+
+        <!-- +++++++++++++++++ ROOM MANAGEMENT +++++++++++++++++++ -->
+        <!-- +++++++++++++++++ ROOM MANAGEMENT +++++++++++++++++++ -->
+        <!-- +++++++++++++++++ ROOM MANAGEMENT +++++++++++++++++++ -->
+        <!-- +++++++++++++++++ ROOM MANAGEMENT +++++++++++++++++++ -->
+        <menuitem name="Room Management" id="menu_RoomMgmt" parent="menu_root"/>
+        <menuitem name="Statistics / Report" id="menu_statisticsReport" parent="menu_root"/>
+        <record model="ir.actions.act_window" id="action_fullHotelReport">
+            <field name="name">Room Features</field>
+            <field name="res_model">hotel.full_hotel_report</field>
+            <field name="view_mode">form</field>
+        </record>
+        <!-- report menu -->
+        <menuitem name="General Report" id="menu_fullReport" parent="menu_statisticsReport"
+            sequence="3" action="action_fullHotelReport"/>
+
+        <record model="ir.actions.act_window" id="action_feature">
+            <field name="name">Room Features</field>
+            <field name="res_model">hotel.feature</field>
+            <field name="view_mode">tree,form</field>
+        </record>    
+        <record model="ir.actions.act_window" id="action_type">
+                    <field name="name">Room Types</field>
+                    <field name="res_model">hotel.type</field>
+                    <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_room">
+            <field name="name">Rooms</field>
+            <field name="res_model">hotel.room</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.ui.view" id="room_type_tree_view">
+            <field name="name">type.tree</field>
+            <field name="model">hotel.type</field>
+            <field name="arch" type="xml">
+                <tree string="Room Types">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="price" />
+                    <field name="feature_id" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record> 
+        <record model="ir.ui.view" id="room_features_tree_view">
+            <field name="name">type.form</field>
+            <field name="model">hotel.feature</field>
+            <field name="arch" type="xml">
+                <form string="Room Features">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record> 
+        <record model="ir.ui.view" id="room_features_form_view">
+            <field name="name">type.form</field>
+            <field name="model">hotel.feature</field>
+            <field name="arch" type="xml">
+                <form string="Room feature Form and inner tree view">
+                    <sheet>
+                        <header><center>Enter Name for Room Feature</center></header>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="room_type_form_view">
+            <field name="name">type.form</field>
+            <field name="model">hotel.type</field>
+            <field name="arch" type="xml">
+                <form string="Room Type Form and inner tree view">
+                    <sheet>
+                        <header><center>Room Type Form</center></header>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="price" />
+                            <field name="feature_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+         <record model="ir.ui.view" id="room_features_tree_view">
+            <field name="name">type.form</field>
+            <field name="model">hotel.room</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Rooms">
+                    <sheet>
+                        <header><center>Room List View</center></header>
+                        <group colspan="2">
+                            <field name="name"/>
+                            <field name="number"/>
+                            <field name="floor" />
+                            <field name="type_id" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record> 
+        <record model="ir.ui.view" id="room_reservation_form_view">
+            <field name="name">type.form</field>
+            <field name="model">hotel.reservation</field>
+            <field name="arch" type="xml">
+                <form string="Reservations Form and inner tree view">
+                    <sheet>
+                        <header><center>Create New Reservations</center></header>
+                        <group>
+                            <field name="name" />
+                            <field name="checkIn_date"/>
+                            <field name="checkout_date"/>
+                            <field name="cust_id"/>
+                            <field name="room_id" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="room_service_tree_view">
+            <field name="name">type.form</field>
+            <field name="model">hotel.room_service</field>
+            <field name="arch" type="xml">
+                <form string="Hotel Room Services">
+                    <sheet>
+                        <header><center>Create room services below</center></header>
+                        <group colspan="2">
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record> 
+        <menuitem name="Room Features" id="menu_room_features" parent="menu_RoomMgmt"
+            sequence="1" action="action_feature"/>
+        <menuitem name="Room Types" id="menu_room_type" parent="menu_RoomMgmt"
+            sequence="2" action="action_type"/>
+        <menuitem name="Rooms" id="menu_room" parent="menu_RoomMgmt"
+            sequence="3" action="action_room"/>
+
+        <!-- ******************* ********************* ********************** -->
+        <!-- ******************* END OF ROOM MANAGEMENT ********************* -->
+        <!-- ******************* ********************* ********************** -->
+        
+
+
+
+        <!-- +++++++++++++++++ START OF RESERVATION +++++++++++++++++++ -->
+        <!-- +++++++++++++++++ START OF RESERVATION +++++++++++++++++++ -->
+        <!-- +++++++++++++++++ START OF RESERVATION +++++++++++++++++++ -->
+        <menuitem name="Reservation" id="menu_Reservation" parent="menu_root"/>
+        <record model="ir.actions.act_window" id="action_reservationList">
+            <field name="name">Reservation List</field>
+            <field name="res_model">hotel.reservation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_checkIn">
+            <field name="name">Check In</field>
+            <field name="res_model">hotel.reservation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_checkOut">
+            <field name="name">Check Out</field>
+            <field name="res_model">hotel.reservation</field>
+            <field name="view_mode">tree,form</field>
+        </record> 
+        <record model="ir.ui.view" id="room_reservation_tree_view">
+            <field name="name">reservation.tree</field>
+            <field name="model">hotel.reservation</field>
+            <field name="arch" type="xml" >
+                <tree string="List of Reservations"> 
+                    <field name="name" />
+                    <field name="checkIn_date"/>
+                    <field name="checkout_date"/>
+                    <field name="cust_id"/>
+                    <field name="room_id" />
+                    <field name="status" />
+                </tree>
+            </field>
+        </record> 
+        <record model="ir.ui.view" id="use_roomService_form_view_t">
+            <field name="name">use_room_services.form</field>
+            <field name="model">hotel.use_room_services</field>
+            <field name="arch" type="xml">
+                <form string="Tree view of use room">
+                    <sheet>
+                        <group>
+                            <field name="res_id"/>
+                            <field name="rs_id"/>
+                            <separator string="Description of the room service used." colspan="2"/>
+                            <field name="description"/>
+                            <field name="cost"/>
+                        </group>
+                        <footer> 
+                            <button name="write" type="object" string="Save" class="oe_highlight" /> or 
+                            <button name="cancel" string="Cancel" special="cancel" class="oe_link"/> 
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="modal_for_use_room_service">
+            <field name="name">Use Room Service</field>
+            <field name="res_model">hotel.use_room_services</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="use_roomService_form_view_t" />
+            <field name="target">new</field>
+        </record>  
+        <record model="ir.ui.view" id="reservation_form_view">
+            <field name="name">reservation.form</field>
+            <field name="model">hotel.reservation</field>
+            <field name="arch" type="xml">
+                <form string="Reservation Form View">
+                    <header>
+                        <button name='status_to_checkin' string='Check In'
+                            class=' oe_highlight fa fa-shield '
+                            type='object' 
+                            attrs="{'invisible': ['|', 
+                                ('status', '!=', 'pending'), 
+                                ('status', '=', 'cancelled')]}" />
+
+                        <button name='status_to_checkout' string='Check Out'
+                            class='oe_highlight fa fa-shield '
+                            type='object' 
+                            attrs="{'invisible': ['|', 
+                                ('status', '!=', 'checkedin'), 
+                                ('status', '=', 'cancelled')]}" />
+                        
+                        <button name='status_to_paid' string='Pay &amp; Invoice'
+                            class='oe_highlight'
+                            type='object' 
+                            attrs="{'invisible': ['|', 
+                                ('status', '!=', 'checkedout'), 
+                                ('status', '=', 'cancelled')]}" />
+
+                        <button name='status_to_cancelled' string='Cancel'
+                            class='oe_avatar'
+                            type='object' 
+                            attrs="{'invisible': ['|', 
+                                ('status', '=', 'checkedin'), 
+                                ('status', '=', 'checkedout'), 
+                                ('status', '=', 'paid'), 
+                                ('status', '=', 'cancelled')]}" />
+
+                        <field name="status" 
+                            widget="statusbar"
+                            statusbar_visible="draft,pending,checkedin,checkedout,paid, cancelled"
+                            statusbar_colors="{'draft':'blue', 'pending':'blue', 'checkedin':'red', 'checkout':'green', 'paid':'black'}" />
+                    </header>
+                    <sheet>
+                        <header><center>Please, fill the bellow information to create a new reservation</center></header>
+                        <group>
+                            <separator string="Reservation Information" colspan="2" />
+                            <field name="name" />
+                            <field name="checkIn_date" 
+                                attrs="{'invisible': [
+                                ('status', '!=', 'checkedin'), 
+                                ('status', '!=', 'checkedout'), 
+                                ('status', '!=', 'paid')]}" readonly="1"/>
+                            <field name="checkout_date" 
+                                attrs="{'invisible': [
+                                ('status', '!=', 'checkedout'), 
+                                ('status', '!=', 'paid')]}"  readonly="1" />
+                            <field name="cust_id"/>
+                            <field name="room_id" /> 
+                            <!-- <field readonly="1" name="status" /> -->
+                            
+                             <button name='%(modal_for_use_room_service)d'
+                                class=' oe_highlight fa fa-shield'
+                                string='Use Room Service'
+                                    
+                                    type='action' 
+                                attrs=" {'invisible': [ 
+                                    ('status', '=', 'pending'), 
+                                    ('status', '=', 'draft'), 
+                                    ('status', '=', 'cancelled')]}" 
+                                context="{'res_id': id}"
+                                />
+                            
+                            
+                            <separator string="Cost, payment and duration" colspan="2" />
+                            <field name="room_price" readonly="1" />
+                            <field name="num_of_days" readonly="1" />
+                            <field name="total_price" readonly="1" />
+                            date paid is to be displayed only when the invoice has been paid
+                            <field name="date_paid" readonly="1" attrs=" {'invisible' : [('status', '!=', 'paid')]} " />
+ 
+                        </group> 
+
+                       <footer><center>
+               
+                                
+                            
+                            
+                             <button name='update_duration_and_cost_of_reservation'
+                                string='Update Days&amp;Cost'
+                                class=' oe_highlight fa fa-shield '
+                                type='object'
+                                attrs=" {'invisible': [ 
+                                    ('status', '=', 'pending'), 
+                                    ('status', '=', 'draft'), 
+                                    ('status', '=', 'cancelled')]}" />
+                           
+                           
+                       </center></footer>
+                    </sheet>
+                    <div class="oe_chatter">Make sure Checkin Date is less than checkout date. <br />
+                    For pending reservations, all can be empty showing that the customer has not yet made clear when he/she is checking in. This makes the reservation a pending one. </div>
+                     
+                </form>
+            </field>
+        </record>     
+
+        <menuitem name="Manage Reservations" id="menu_reservation_List" 
+            parent="menu_Reservation" sequence="1" action="action_reservationList"/>
+        <!-- <menuitem name="Check In" id="menu_reservation_checkIn" 
+            parent="menu_Reservation" sequence="2" action="action_checkIn"/>
+        <menuitem name="Check Out" id="menu_reservation_checkOut" 
+            parent="menu_Reservation" sequence="3" action="action_checkOut"/> -->
+
+        <!-- ******************* ********************* ********************** -->
+        <!-- ******************* END OF ROOM RESERVATION ********************* -->
+        <!-- ******************* ********************* ********************** -->
+        
+
+        <!-- +++++++++++++++++ START OF ROOM ADDED SERVICE +++++++++++++++++++ -->
+        <!-- +++++++++++++++++ START OF ROOM ADDED SERVICE +++++++++++++++++++ -->
+        <!-- +++++++++++++++++ START OF ROOM ADDED SERVICE +++++++++++++++++++ -->
+        <menuitem name="Room Added Services" id="menu_roomServices" parent="menu_root"/>
+        <record model="ir.actions.act_window" id="action_addRoomService">
+            <field name="name">Add Room Service</field>
+            <field name="res_model">hotel.room_service</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="use_roomService_form_view">
+            <field name="name">use_room_services.form</field>
+            <field name="model">hotel.use_room_services</field>
+            <field name="arch" type="xml">
+                <form string="Tree view of use room">
+                    <sheet>
+                        <group>
+                            <field name="res_id"/>
+                            <field name="rs_id"/>
+                            <separator string="Description of the room service used." colspan="2"/>
+                            <field name="description"/>
+                            <field name="cost"/>
+                        </group>
+                        <footer> 
+                            <button name="write" type="object" string="Save" class="oe_highlight" /> or 
+                            <button name="cancel" string="Cancel" special="cancel" class="oe_link"/> 
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="use_roomService_tree_view">
+            <field name="name">use_room_services.tree</field>
+            <field name="model">hotel.use_room_services</field>
+            <field name="arch" type="xml">
+                <tree string="Use room service tree view">
+                    <field name="res_id"/>
+                    <field name="rs_id"/>
+                    <field name="description"/>
+                    <field name="cost"/>
+                </tree>
+            </field>
+        </record> 
+        <record model="ir.actions.act_window" id="action_useRoomService_frm">
+            <field name="name">Use Room Service</field>
+            <field name="res_model">hotel.use_room_services</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="use_roomService_form_view" />
+        </record>
+        <record model="ir.actions.act_window" id="action_useRoomService">
+            <field name="name">Use Room Service</field>
+            <field name="res_model">hotel.use_room_services</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="use_roomService_tree_view" />
+        </record>
+        <menuitem name="Add Room Service" id="menu_addRoomService" 
+            parent="menu_roomServices" sequence="1" action="action_addRoomService"/>
+        <menuitem name="Use Room Service" id="menu_useRoomService" 
+            parent="menu_roomServices" sequence="2" action="action_useRoomService"/>
+
+
+        <!-- ******************* ********************* ********************** -->
+        <!-- ******************* END OF ROOM MANAGEMENT ********************* -->
+        <!-- ******************* ********************* ********************** -->
+        
+
+        <!-- raports -->
+        <record model="ir.ui.view" id="hotel_reservation_graph_view">
+            <field name="name">hotel.reservation.graph</field>
+            <field name="model">hotel.reservation</field>
+            <field name="arch" type="xml">
+                <graph string="Reservations made">
+                    <field name="name"/>
+                    <!-- <field name="attendees_count" type="measure"/> -->
+                </graph>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="reservation_calendar_view">
+            <field name="name">hotel.reservation.calendar</field>
+            <field name="model">hotel.reservation</field>
+            <field name="arch" type="xml">
+                <calendar 
+                    string="Reservation Calendar" 
+                    date_start="checkIn_date"
+                    date_stop="checkout_date" 
+                    color="name">
+                    <field name="name"/>
+                    <field name="cust_id" />
+                    <field name="checkIn_date" />
+                </calendar>
+            </field>
+        </record>
+
+
+
+      
+
+    </data>
+</openerp>

@@ -1,0 +1,27 @@
+<openerp>
+<data>
+    <report
+        id="full_hotel_report_all"
+        model="hotel.full_hotel_report"
+        string="Full Hotel Report"
+        name="hotel.full_hotel_report"
+        file="hotel.full_hotel_report"
+        report_type="qweb-html" />
+	
+
+
+    <template id="full_hotel_report" >
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                    	hello, we are in full report 
+                    	<span t-field="doc.id" />. end
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</data>
+</openerp>

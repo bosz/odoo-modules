@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.actions.act_window" id="act_reservation_graph">
+            <field name="name">Reservation Stats</field>
+            <field name="res_model">hotel.reservation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id"
+                   ref="hotel.hotel_reservation_graph_view"/>
+        </record>
+        <record model="ir.actions.act_window" id="act_reservation_calendar">
+            <field name="name">reservations</field>
+            <field name="res_model">hotel.reservation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,form</field>
+            <field name="view_id" ref="hotel.reservation_calendar_view"/>
+        </record>
+        <record model="ir.actions.act_window" id="act_room_list">
+            <field name="name">Rooms</field>
+            <field name="res_model">hotel.room</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.ui.view" id="board_reservation_form">
+            <field name="name">reservation Dashboard Form</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="reservation Dashboard">
+                    <board style="2-1">
+                        <column>
+                            <action
+                                string="Reservation Statistics"
+                                name="%(act_reservation_graph)d"
+                                height="100"
+                                width="200"/>
+                            <action
+                                string="Reservation Calendar"
+                                name="%(act_reservation_calendar)d"/>
+                        </column>
+                        <column>
+                            <action
+                                string="Rooms"
+                                name="%(act_room_list)d"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="open_board_reservation">
+          <field name="name">reservation Dashboard</field>
+          <field name="res_model">board.board</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="usage">menu</field>
+          <field name="view_id" ref="board_reservation_form"/>
+        </record>
+
+        <menuitem
+            name="reservation Dashboard" parent="base.menu_reporting_dashboard"
+            action="open_board_reservation"
+            sequence="1"
+            id="menu_board_reservation" icon="terp-graph"/>
+    </data>
+</openerp>
+

@@ -1,0 +1,257 @@
+<openerp>
+<data>
+    <report
+        id="report_reservation"
+        model="hotel.reservation"
+        string="Reservation Report"
+        name="hotel.report_reservation_view"
+        file="hotel.report_reservation"
+        report_type="qweb-html" />
+
+    <template id="report_reservation_view" >
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <!-- customer information -->
+                        <style>
+                            table{
+                                margin-bottom: 1px!important;
+                            }
+                            all.table tr td:nth-child(1), all.table tr td:nth-child(4){
+                                font-weight: bold;
+                                font-family: tahoma;
+                            }
+                            all.table tr td:nth-child(3){
+                                width: 10px;
+                                background: transparent;
+                                margin: 3px;
+                                border: 1px solid #eee;
+                                content: " ";
+                            }
+                            div.main_heading{
+                                width: 70%; 
+                                background: rgba(128, 196, 204, 0.3); 
+                                margin: auto auto; 
+                                margin-top 3px; margin-bottom: 3px;
+                                border-radius: 5px; 
+                                color: #000; 
+                                padding: 4px; 
+                                text-align: center; 
+                                vertical-align: middle; 
+                            }
+                            div.main_heading i{
+                                font-size: 1.5em; padding-bottom: 2px;
+                            }
+                            div.main_heading span{
+                                font-size: 2em!important; padding-bottom: 2px;
+                            }
+                            h4, h3{
+                                text-align: center;
+                                padding-bottom: 2px;
+                                margin-top: 0px; margin-bottom: 0px;
+                            }
+
+                            h3{
+                                text-decoration: underline;
+                            }
+                            h4{
+                                font-weight: bolder;
+                            }
+
+                            .d1, .d2{
+                                margin-top: 2px;
+                                margin-bottom: 2px;
+                                padding: 2px;
+                            }
+                            .d1{
+                                border: 1px solid #ddd;
+                                border-radius: 3px;
+                            }
+                            .d2{
+                            }
+
+                            .used_room_service{
+                                font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+                            }
+                            #grand-total{
+                                padding-left: 10px; padding-right: 10px;
+                                border-top: 1px solid black;
+                                border-bottom: 1px solid black;
+                                font-size: 20px; 
+                                font-weight: bold;
+                                font-family: tahoma;
+                                background: transparent
+                            }
+                            #fin{
+                                margin-top: 5px; 
+                                border: 2px dashed #ddd; 
+                                border-bottom: 1px solid black;
+                                paddinb-bottom: 4px; padding-top: 2px;
+                            }
+                            #fin table tr td{
+                                text-align: center;
+                            }
+                            td{
+                                line-height: 0.8!important;
+                            }
+                        </style>
+                        <div class="main_heading col-md-8 col-md-offset-2" > 
+                            <i>Reservation details for : </i>
+                            <span t-field="doc.name" /> 
+                        </div>
+                        <div class="col-md-8 col-md-offset-2 d2">
+                            <h3>Customer Information</h3>
+                            <table class="table table-striped all">
+                                <tr>
+                                    <td>Customer Name</td>
+                                    <td><span t-field="doc.cust_id.name" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Customer Description</td>
+                                    <td><span t-field="doc.cust_id.description" /></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- room information -->
+                        <div class="col-md-8 col-md-offset-2 d1">
+                            <!-- room -->
+                            <h3>Lodging Information</h3>
+                            <table class="table table-striped all">
+                                <tr>
+                                    <td colspan="2"><h4>Room Info</h4></td>
+                                    <td></td>
+                                    <td colspan="2"><h4>Room Category Info</h4></td>
+                                </tr>
+                                <tr>
+                                    <td>Room Name  </td>
+                                    <td><span t-field="doc.room_id.name" /></td>
+                                    <td></td>
+                                    <td>Room Type</td>
+                                    <td><span t-field="doc.room_id.type_id.name" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Room Number  </td>
+                                    <td><span t-field=" doc.room_id.number" /></td>
+                                    <td></td>
+                                    <td>Room Type Price</td>
+                                    <td><span t-field="doc.room_id.type_id.price" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Floor Number  </td>
+                                    <td><span t-field="doc.room_id.floor" /></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Reservation information -->
+                        <div class="col-md-10 col-md-offset-1 d1">
+                            <!-- dates -->
+                            <h3>Reservation Information</h3>
+                            <table class="table table-striped all">
+                                <tr>
+                                    <td colspan="2">
+                                        <h4> Schedule dates / time </h4>
+                                    </td>
+                                    <td></td>
+                                    <td colspan="2">
+                                        <h4>Duration and Cost</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Created on </td>
+                                    <td><span t-field="doc.create_date" /></td>
+                                    <td></td>
+                                    <td>Number of days</td>
+                                    <td><span t-field="doc.num_of_days" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Checkin Date</td>
+                                    <td><span t-field="doc.checkIn_date" /></td>
+                                    <td></td>
+                                    <td>Price Per Day</td>
+                                    <td><span t-field="doc.room_price" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Checkout Date</td>
+                                    <td><span t-field="doc.checkout_date" /></td>
+                                    <td></td>
+                                    <td><strong>Total Cost</strong></td>
+                                    <td><strong><span t-field="doc.total_price" /></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Checkout Date</td>
+                                    <td><span t-field="doc.date_paid" /></td>
+                                    <td></td>
+                                    <td colspan="2" ></td>
+                                </tr>
+                            </table>
+                        </div>
+                      
+                      
+
+                        <div class="col-md-12 used_room_service d1">
+                            <h3>Services Used on reservation 
+                                <strong><span t-field="doc.name" /> </strong>
+                            </h3>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Service Name </th>
+                                        <th>Description </th>
+                                        <th>Date Used</th>
+                                        <th>Cost </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.use_rs_id" t-as="rs">
+                                        <tr>
+                                            <td> <span t-field="rs.rs_id.name" /> </td>
+                                            <td> <span t-field="rs.description" /> </td>
+                                            <td> <span t-field="rs.create_date" /> </td>
+                                            <td> <span t-field="rs.cost" /> </td>
+                                        </tr>
+                                    </t>
+                                        <tr>
+                                            <td colspan="3"><center><u>Sub Total </u></center> </td>
+                                            <td> <code> <span t-field="doc.rs_total_price"/> </code> </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                        <!-- GRAND TOTAL COMPUTATION -->
+                        <div class="col-md-10 col-md-offset-1" id="fin">
+                            <h3>Grand Total </h3>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td class="bg-info" >
+                                        <span t-field="doc.total_price" /> 
+                                    </td>
+
+                                    <td>
+                                        <kbd> + </kbd>
+                                    </td>
+
+                                    <td class="bg-warning" >
+                                        <span t-field="doc.rs_total_price" /> 
+                                    </td>
+
+                                    <td class="bg-success" id="grand-total">
+                                        <code> <span t-field="doc.res_grand_total" /> </code> 
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</data>
+</openerp>
+
